@@ -9,6 +9,7 @@ Source0:	http://pingus.seul.org/~grumbel/xboxdrv/%{name}-linux-%{version}.tar.bz
 Source1:	%{name}.service
 Source2:	%{name}.init
 Source3:	%{name}.sysconfig
+Source4:	%{name}.blacklist.conf
 URL:		http://pingus.seul.org/~grumbel/xboxdrv/
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
@@ -52,7 +53,7 @@ works for you there is no need to try this driver.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{systemdunitdir}} \
-	$RPM_BUILD_ROOT{/etc/sysconfig,/etc/rc.d/init.d}
+	$RPM_BUILD_ROOT{/etc/sysconfig,/etc/rc.d/init.d,/etc/modprobe.d}
 
 install xboxdrv $RPM_BUILD_ROOT%{_bindir}
 install xboxdrvctl $RPM_BUILD_ROOT%{_bindir}
@@ -62,6 +63,7 @@ install doc/xboxdrv.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install %{SOURCE1} $RPM_BUILD_ROOT%{systemdunitdir}/xboxdrv.service
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/xboxdrv
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/xboxdrv
+install %{SOURCE4} $RPM_BUILD_ROOT/etc/modprobe.d/xboxdrv.blacklist.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -89,6 +91,7 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/xboxdrv
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/xboxdrv
 %{systemdunitdir}/xboxdrv.service
+%config(noreplace) %verify(not md5 mtime size) /etc/modprobe.d/xboxdrv.blacklist.conf
 %attr(755,root,root) %{_bindir}/xboxdrv
 %attr(755,root,root) %{_bindir}/xboxdrvctl
 %{_mandir}/man1/xboxdrv.1*
