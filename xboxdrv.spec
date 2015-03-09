@@ -59,23 +59,23 @@ install xboxdrvctl $RPM_BUILD_ROOT%{_bindir}
 
 install doc/xboxdrv.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{systemdunitdir}/%{name}.service
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/%{name}
+install %{SOURCE1} $RPM_BUILD_ROOT%{systemdunitdir}/xboxdrv.service
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/xboxdrv
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/xboxdrv
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%systemd_post %{name}.service
-/sbin/chkconfig --add %{name}
-%service %{name} restart
+%systemd_post xboxdrv.service
+/sbin/chkconfig --add xboxdrv
+%service xboxdrv restart
 
 %preun
-%systemd_preun %{name}.service
+%systemd_preun xboxdrv.service
 if [ "$1" = "0" ]; then
-	%service -q %{name} stop
-	/sbin/chkconfig --del %{name}
+	%service -q xboxdrv stop
+	/sbin/chkconfig --del xboxdrv
 fi
 
 %postun
@@ -86,9 +86,9 @@ fi
 %doc AUTHORS NEWS PROTOCOL README TODO
 %doc doc/sensitivity.png doc/sensitivity.svg doc/xbox360-asciiart.txt
 %doc examples
-%attr(754,root,root) /etc/rc.d/init.d/%{name}
-%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/%{name}
-%{systemdunitdir}/%{name}.service
+%attr(754,root,root) /etc/rc.d/init.d/xboxdrv
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/xboxdrv
+%{systemdunitdir}/xboxdrv.service
 %attr(755,root,root) %{_bindir}/xboxdrv
 %attr(755,root,root) %{_bindir}/xboxdrvctl
 %{_mandir}/man1/xboxdrv.1*
