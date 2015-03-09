@@ -1,0 +1,13 @@
+[Unit]
+Description=Xbox/Xbox360 USB Gamepad Driver
+
+[Service]
+Type=dbus
+BusName=org.seul.Xboxdrv
+EnvironmentFile=/etc/sysconfig/xboxdrv
+ExecStartPre=-/sbin/modprobe -r xpad
+ExecStartPre=-/sbin/modprobe uinput
+ExecStart=/usr/bin/xboxdrv --daemon --dbus system $XBOXDRV_OPTIONS
+
+[Install]
+WantedBy=multi-user.target
