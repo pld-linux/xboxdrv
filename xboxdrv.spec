@@ -10,6 +10,7 @@ Source1:	%{name}.service
 Source2:	%{name}.init
 Source3:	%{name}.sysconfig
 Source4:	%{name}.blacklist.conf
+Source5:	org.seul.Xboxdrv.conf
 URL:		http://pingus.seul.org/~grumbel/xboxdrv/
 BuildRequires:	boost-devel
 BuildRequires:	dbus-devel
@@ -52,7 +53,8 @@ works for you there is no need to try this driver.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{systemdunitdir}} \
-	$RPM_BUILD_ROOT{/etc/sysconfig,/etc/rc.d/init.d,/etc/modprobe.d}
+	$RPM_BUILD_ROOT{/etc/sysconfig,/etc/rc.d/init.d,/etc/modprobe.d} \
+	$RPM_BUILD_ROOT/etc/dbus-1/system.d
 
 install -p xboxdrv $RPM_BUILD_ROOT%{_bindir}
 install -p xboxdrvctl $RPM_BUILD_ROOT%{_bindir}
@@ -63,6 +65,7 @@ install -p %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/xboxdrv
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{systemdunitdir}/xboxdrv.service
 cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/xboxdrv
 cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/modprobe.d/xboxdrv.blacklist.conf
+cp -p install %{SOURCE5} $RPM_BUILD_ROOT/etc/dbus-1/system.d/org.seul.Xboxdrv.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -91,6 +94,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/xboxdrv
 %{systemdunitdir}/xboxdrv.service
 %config(noreplace) %verify(not md5 mtime size) /etc/modprobe.d/xboxdrv.blacklist.conf
+/etc/dbus-1/system.d/org.seul.Xboxdrv.conf
 %attr(755,root,root) %{_bindir}/xboxdrv
 %attr(755,root,root) %{_bindir}/xboxdrvctl
 %{_mandir}/man1/xboxdrv.1*
