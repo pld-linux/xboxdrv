@@ -11,19 +11,18 @@ Source2:	%{name}.init
 Source3:	%{name}.sysconfig
 Source4:	%{name}.blacklist.conf
 URL:		http://pingus.seul.org/~grumbel/xboxdrv/
-BuildRequires:	rpmbuild(macros) >= 1.228
-Requires(post,preun):	/sbin/chkconfig
-BuildRequires:	rpmbuild(macros) >= 1.647
-Requires:	rc-scripts
-Requires(post,preun,postun):	systemd-units >= 38
 BuildRequires:	boost-devel
 BuildRequires:	dbus-devel
 BuildRequires:	glib2-devel
 BuildRequires:	libusb-devel
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.647
 BuildRequires:	scons
 BuildRequires:	udev-devel
 BuildRequires:	xorg-lib-libX11-devel
+Requires(post,preun):	/sbin/chkconfig
+Requires(post,preun,postun):	systemd-units >= 38
+Requires:	rc-scripts
 Requires:	systemd-units >= 0.38
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -55,23 +54,23 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1,%{systemdunitdir}} \
 	$RPM_BUILD_ROOT{/etc/sysconfig,/etc/rc.d/init.d,/etc/modprobe.d}
 
-install xboxdrv $RPM_BUILD_ROOT%{_bindir}
-install xboxdrvctl $RPM_BUILD_ROOT%{_bindir}
+install -p xboxdrv $RPM_BUILD_ROOT%{_bindir}
+install -p xboxdrvctl $RPM_BUILD_ROOT%{_bindir}
 
-install doc/xboxdrv.1 $RPM_BUILD_ROOT%{_mandir}/man1
+cp -p doc/xboxdrv.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{systemdunitdir}/xboxdrv.service
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/xboxdrv
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/xboxdrv
-install %{SOURCE4} $RPM_BUILD_ROOT/etc/modprobe.d/xboxdrv.blacklist.conf
+install -p %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/xboxdrv
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{systemdunitdir}/xboxdrv.service
+cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/xboxdrv
+cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/modprobe.d/xboxdrv.blacklist.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%systemd_post xboxdrv.service
 /sbin/chkconfig --add xboxdrv
 %service xboxdrv restart
+%systemd_post xboxdrv.service
 
 %preun
 %systemd_preun xboxdrv.service
