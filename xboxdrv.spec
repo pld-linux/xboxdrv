@@ -1,7 +1,7 @@
 Summary:	Xbox/Xbox360 USB Gamepad userspace driver
 Name:		xboxdrv
 Version:	0.8.5
-Release:	2
+Release:	3
 License:	GPL v3
 Group:		Applications
 Source0:	http://pingus.seul.org/~grumbel/xboxdrv/%{name}-linux-%{version}.tar.bz2
@@ -65,7 +65,7 @@ install -p %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/xboxdrv
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{systemdunitdir}/xboxdrv.service
 cp -p %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/xboxdrv
 cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/modprobe.d/xboxdrv.blacklist.conf
-cp -p install %{SOURCE5} $RPM_BUILD_ROOT/etc/dbus-1/system.d/org.seul.Xboxdrv.conf
+cp -p %{SOURCE5} $RPM_BUILD_ROOT/etc/dbus-1/system.d/org.seul.Xboxdrv.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
