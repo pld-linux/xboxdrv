@@ -1,7 +1,7 @@
 Summary:	Xbox/Xbox360 USB Gamepad userspace driver
 Name:		xboxdrv
 Version:	0.8.5
-Release:	1
+Release:	2
 License:	GPL v3
 Group:		Applications
 Source0:	http://pingus.seul.org/~grumbel/xboxdrv/%{name}-linux-%{version}.tar.bz2
